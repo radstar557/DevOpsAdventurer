@@ -178,17 +178,17 @@ class PokerPlayerAPI(Resource):
                     #bitAmount = data[u'min_bid']
                     rankValue = rank[0]
                     if rankValue == 0:
-                        bitAmount = data[u'min_bid'] + 0.20 * data[u'max_bid']
+                        bitAmount = data[u'min_bid'] + 0.20 * data[u'min_bid']
                     elif rankValue == 1:
-                        bitAmount = data[u'min_bid'] + 0.20 * data[u'max_bid']
+                        bitAmount = data[u'min_bid'] + 0.20 * data[u'min_bid']
                     elif rankValue == 2:
-                        bitAmount = data[u'min_bid'] + 0.25 * data[u'max_bid']
+                        bitAmount = data[u'min_bid'] + 0.25 * data[u'min_bid']
                     elif rankValue == 3:
-                        bitAmount = data[u'min_bid'] + 0.25 * data[u'max_bid']
+                        bitAmount = data[u'min_bid'] + 0.25 * data[u'min_bid']
                     elif rankValue == 4:
-                        bitAmount = data[u'min_bid'] + 0.30 * data[u'max_bid']
+                        bitAmount = data[u'min_bid'] + 0.30 * data[u'min_bid']
                     elif rankValue == 5:
-                        bitAmount = data[u'min_bid'] + 0.40 * data[u'max_bid']
+                        bitAmount = data[u'min_bid'] + 0.40 * data[u'min_bid']
                     elif rankValue == 6:
                         bitAmount = data[u'min_bid'] + 0.50 * data[u'max_bid']
                     elif rankValue == 7:
@@ -269,12 +269,14 @@ class PokerPlayerAPI(Resource):
                         bitAmount = data[u'max_bid']
                     else:
                         bitAmount = 0
+            if int(bitAmount) == 0 and data[u'min_bid'] == 0:
+                print('In special case')
+                bitAmount = 10
+
             if bitAmount > data[u'max_bid'] :
                 bitAmount = data[u'max_bid']
 
-            if int(bitAmount) == 0 and data[u'min_bid'] == 0 :
-                print('In special case')
-                bitAmount = 1
+
             print('bit amount', int(bitAmount))
 
             return {'bid': self.__get_bid(data,int(bitAmount))}
