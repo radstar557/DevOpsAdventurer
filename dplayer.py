@@ -272,7 +272,8 @@ class PokerPlayerAPI(Resource):
             if bitAmount > data[u'max_bid'] :
                 bitAmount = data[u'max_bid']
 
-            if bitAmount == 0 & data[u'min_bid'] == 0 :
+            if int(bitAmount) == 0 and data[u'min_bid'] == 0 :
+                print('In special case')
                 bitAmount = data[u'max_bid']
             print('bit amount', int(bitAmount))
 
