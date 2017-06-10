@@ -8,8 +8,8 @@
 # -----------------------------------------------------------
 # Configuration
 # You need to change the setting according to your environment
-gregister_url='http://localhost:5001'
-glocalip_adr='127.0.0.1'
+gregister_url='http://192.168.0.5:5001'
+glocalip_adr='192.168.0.33'
 
 # -----------------------------------------------------------
 
@@ -66,7 +66,8 @@ class PokerPlayerAPI(Resource):
     # @return a dictionary containing the following values
     #         bid  : a number between 0 and max_bid
     def __get_bid(self, data):
-
+        print('Hello Adventurer')
+        print(data)
         return 0
 
     # dispatch incoming get commands
@@ -76,6 +77,17 @@ class PokerPlayerAPI(Resource):
         data = json.loads(data)
 
         if command_id == 'get_bid':
+            print('Inside get')
+            #print( data)
+            print('min_bid:', data[u'min_bid'])
+            print('pot:', data[u'pot'])
+            print('big_blind:', data[u'big_blind'])
+            print('hand:', data[u'hand'])
+
+
+            print('board:', data[u'board'])
+
+
             return {'bid': self.__get_bid(data)}
         else:
             return {}, 201
@@ -116,7 +128,6 @@ example:
 
     else:
         print('registration successful')
-
     try:
         app.run(host='0.0.0.0', port=api_port, debug=False)
     finally:
