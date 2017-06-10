@@ -169,13 +169,34 @@ class PokerPlayerAPI(Resource):
             bitAmount = 0
             if data[u'hand'] :
                 length = len(data[u'hand']) + len(data[u'board'])
-                print("round number : ", length )
+                print("number of cards: ", length )
                 #print(data[u'hand'] + data[u'board'])
                 rank = hand_rank(data[u'hand'] + data[u'board'])
                 print("rank : ", rank)
                 if length == 2 :
                     print("in round 1")
-                    bitAmount = data[u'min_bid']
+                    #bitAmount = data[u'min_bid']
+                    rankValue = rank[0]
+                    if rankValue == 0:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 1:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 2:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 3:
+                        bitAmount = data[u'min_bid'] + 0.20 * data[u'min_bid']
+                    elif rankValue == 4:
+                        bitAmount = data[u'min_bid'] + 0.30 * data[u'min_bid']
+                    elif rankValue == 5:
+                        bitAmount = data[u'min_bid'] + 0.40 * data[u'min_bid']
+                    elif rankValue == 6:
+                        bitAmount = data[u'min_bid'] + 0.50 * data[u'min_bid']
+                    elif rankValue == 7:
+                        bitAmount = data[u'min_bid'] +  0.60 * data[u'min_bid']
+                    elif rankValue == 8:
+                        bitAmount = data[u'min_bid'] + 0.70 * data[u'min_bid']
+                    else:
+                        bitAmount = data[u'min_bid']
                 elif length == 5:
                     #print(rank[0])
                     print("in round 2")
