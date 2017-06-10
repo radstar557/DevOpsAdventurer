@@ -148,9 +148,9 @@ class PokerPlayerAPI(Resource):
     #
     # @return a dictionary containing the following values
     #         bid  : a number between 0 and max_bid
-    def __get_bid(self, data):
-        print(data)
-        return 0
+    def __get_bid(self, data,bitAmount):
+        # print('bit amount in gte_bid function ', bitAmount)
+        return bitAmount
 
     # dispatch incoming get commands
     def get(self, command_id):
@@ -160,19 +160,47 @@ class PokerPlayerAPI(Resource):
 
         if command_id == 'get_bid':
 
+            print(data)
             # print('Inside get')
             # print('min_bid:', data[u'min_bid'])
             # print('pot:', data[u'pot'])
             # print('big_blind:', data[u'big_blind'])
             # hand2 = print('hand[1]:', data[u'hand'][1]
+            bitAmount = 0
+            if data[u'hand'] :
+                length = len(data[u'hand']) + len(data[u'board'])
+                print("round number : ", length )
+                #print(data[u'hand'] + data[u'board'])
+                rank = hand_rank(data[u'hand'] + data[u'board'])
+                print("rank : ", rank)
+                if length == 2 :
+                    bitAmount = data[u'min_bid']
+                else:
+                    #print(rank[0])
+                    rankValue = rank[0]
+                    if rankValue == 0 :
+                        bitAmount = 0
+                    elif rankValue == 1 :
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 2:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 3:
+                        bitAmount = data[u'max_bid'] + 5
+                    elif rankValue == 4:
+                        bitAmount = data[u'max_bid'] + 10
+                    elif rankValue == 5:
+                        bitAmount = data[u'max_bid'] + 30
+                    elif rankValue == 6:
+                        bitAmount = data[u'max_bid'] + 40
+                    elif rankValue == 7:
+                        bitAmount = data[u'max_bid'] + 50
+                    elif rankValue == 8:
+                        bitAmount = data[u'min_bid'] + data[u'max_bid'] + 100
+                    else :
+                        bitAmount = 0
+            print('bit amount', bitAmount)
 
-            print('rank:', hand_rank(data[u'hand']))
-
-
-            # print('board:', data[u'board'])
-
-
-            return {'bid': self.__get_bid(data)}
+            return {'bid': self.__get_bid(data,bitAmount)}
         else:
             return {}, 201
 
