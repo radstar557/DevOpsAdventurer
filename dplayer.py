@@ -174,8 +174,34 @@ class PokerPlayerAPI(Resource):
                 rank = hand_rank(data[u'hand'] + data[u'board'])
                 print("rank : ", rank)
                 if length == 2 :
+                    print("in round 1")
                     bitAmount = data[u'min_bid']
-                else:
+                elif length == 5:
+                    #print(rank[0])
+                    print("in round 2")
+                    rankValue = rank[0]
+                    if rankValue == 0 :
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 1 :
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 2:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 3:
+                        bitAmount = data[u'min_bid'] + 0.20 * data[u'min_bid']
+                    elif rankValue == 4:
+                        bitAmount = data[u'min_bid'] + 0.30 * data[u'min_bid']
+                    elif rankValue == 5:
+                        bitAmount = data[u'min_bid'] +  0.40 * data[u'min_bid']
+                    elif rankValue == 6:
+                        bitAmount = data[u'min_bid'] +  0.50 * data[u'min_bid']
+                    elif rankValue == 7:
+                        bitAmount = data[u'max_bid']
+                    elif rankValue == 8:
+                        bitAmount = data[u'max_bid']
+                    else :
+                        bitAmount = 0
+                elif length == 6:
+                    print("in round 3")
                     #print(rank[0])
                     rankValue = rank[0]
                     if rankValue == 0 :
@@ -185,22 +211,49 @@ class PokerPlayerAPI(Resource):
                     elif rankValue == 2:
                         bitAmount = data[u'min_bid']
                     elif rankValue == 3:
-                        bitAmount = data[u'max_bid'] + 5
+                        bitAmount = data[u'min_bid'] + 0.20 * data[u'min_bid']
                     elif rankValue == 4:
-                        bitAmount = data[u'max_bid'] + 10
+                        bitAmount = data[u'min_bid'] + 0.30 * data[u'min_bid']
                     elif rankValue == 5:
-                        bitAmount = data[u'max_bid'] + 30
+                        bitAmount = data[u'min_bid'] +  0.40 * data[u'min_bid']
                     elif rankValue == 6:
-                        bitAmount = data[u'max_bid'] + 40
+                        bitAmount = data[u'min_bid'] +  0.50 * data[u'min_bid']
                     elif rankValue == 7:
-                        bitAmount = data[u'max_bid'] + 50
+                        bitAmount = data[u'max_bid']
                     elif rankValue == 8:
-                        bitAmount = data[u'min_bid'] + data[u'max_bid'] + 100
+                        bitAmount = data[u'max_bid']
                     else :
                         bitAmount = 0
-            print('bit amount', bitAmount)
+                elif length == 7:
+                    print("in round 4")
+                    # print(rank[0])
+                    rankValue = rank[0]
+                    if rankValue == 0:
+                        bitAmount = 0
+                    elif rankValue == 1:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 2:
+                        bitAmount = data[u'min_bid']
+                    elif rankValue == 3:
+                        bitAmount = data[u'min_bid'] + 0.20 * data[u'min_bid']
+                    elif rankValue == 4:
+                        bitAmount = data[u'min_bid'] + 0.30 * data[u'min_bid']
+                    elif rankValue == 5:
+                        bitAmount = data[u'min_bid'] +  0.40 * data[u'min_bid']
+                    elif rankValue == 6:
+                        bitAmount = data[u'min_bid'] +  0.50 * data[u'min_bid']
+                    elif rankValue == 7:
+                        bitAmount = data[u'max_bid']
+                    elif rankValue == 8:
+                        bitAmount = data[u'max_bid']
+                    else:
+                        bitAmount = 0
+            if bitAmount > data[u'max_bid'] :
+                bitAmount = data[u'max_bid']
 
-            return {'bid': self.__get_bid(data,bitAmount)}
+            print('bit amount', int(bitAmount))
+
+            return {'bid': self.__get_bid(data,int(bitAmount))}
         else:
             return {}, 201
 
